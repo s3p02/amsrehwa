@@ -1,5 +1,6 @@
 #testHExConvert
 from hexConvert import hexConvert
+from subnetRange import subnetRange
 import unittest
 import logging
 import sys
@@ -23,6 +24,21 @@ class testHexConvert(unittest.TestCase):
     def testGetIp(self):
         test_getIp = hexConvert(self.sample).getIp()
         self.assertEqual(test_getIp,self.sampleIp)
+class testSubnetRange(unittest.TestCase):
+    sample = '98.210.237.192/26'
+    ip = '98.210.237.192'
+    block = 26
+    binaryString = "11111111111111111111111111000000"
+    bitRotatedBinaryOctetDict = {0: '11111111', 8: '11111111', 16: '11111111', 24: '11000000'}
+    #subnetMaskList = ["255","255","255","192"]
+    def testInit(self):
+        test_init = subnetRange(self.sample)
+        self.assertEqual(test_init.ipAddress,self.ip)
+        self.assertNotEqual(test_init.ipAddress,'98.210.237.197')
+        self.assertEqual(test_init.block,self.block)
+        self.assertNotEqual(test_init.block,29)
+        self.assertEqual(test_init.bitRotatedBinaryString,self.binaryString)
+        self.assertEqual(test_init.bitRotatedBinaryOctetDict,self.bitRotatedBinaryOctetDict)
 
 if __name__ == '__main__':
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
