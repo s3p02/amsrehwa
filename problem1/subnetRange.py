@@ -19,6 +19,8 @@ class subnetRange:
             subnetStringSplit = subnetString.split("/")
             self.ipAddress = subnetStringSplit[0]
             logging.debug("CLASS subnetRange:__init__,ipAddress="+str(self.ipAddress))
+            self.ipAddressOctetDict = self.__getIpAddressOctetDict()
+            logging.debug("CLASS subnetRange:__init__,ipAddressOctetDict="+str(self.ipAddressOctetDict))
             self.block = int(subnetStringSplit[1])
             logging.debug("CLASS subnetRange:__init__,block="+str(self.block))
             self.bitRotatedBinaryString = self.__getBitRotatedBinaryString()
@@ -31,6 +33,10 @@ class subnetRange:
             logging.debug("CLASS subnetRange:__init__,binaryNetworkValue="+str(self.binaryNetworkValue))
             self.broadcastValue = self.__getBroadcastValue()
             logging.debug("CLASS subnetRange:__init__,broadcastValue="+str(self.broadcastValue))
+            self.networkIp = self.__getIp("network")
+            logging.debug("CLASS subnetRange:__init__,networkIp="+str(self.networkIp))
+            self.broadcastIp = self.__getIp("broadcast")
+            logging.debug("CLASS subnetRange:__init__,broadcastIp="+str(self.broadcastIp))
         except IndexError:
             logging.error("CLASS subnetRange:subnetString="+str(subnetString)+",\'/\'SPLIT FAILED")
     def __getBitRotatedBinaryString(self):
@@ -51,6 +57,13 @@ class subnetRange:
         logging.debug("CLASS subnetRange:__getBitRotatedBinaryOctetDict,bitRotatedBinaryOctetDict="+str(bitRotatedBinaryOctetDict))
         logging.debug("CLASS subnetRange:__getBitRotatedBinaryOctetDict,subnetMask="+str(self.subnetMask))
         return bitRotatedBinaryOctetDict
+    def __getIpAddressOctetDict(self):
+        ipAddressOctetDict ={}
+        ipAddressSplit = self.ipAddress.split(".")
+        for i in range(len(ipAddressSplit)):
+            ipAddressOctetDict[i*8] = ipAddressSplit[i]
+        logging.debug("CLASS subnetRange:__getIpAddressOctetDict,ipAddressOctetDict="+str(ipAddressOctetDict))
+        return ipAddressOctetDict
     def __getFocusValue(self):
         po = {}
         for o,v in self.subnetMask.items():
@@ -96,3 +109,31 @@ class subnetRange:
         broadcastValue = self.networkValueSum + bv[maxVal] - 1
         logging.debug("CLASS subnetRange:__getBroadcastValue,broadcastValue="+str(self.networkValueSum))
         return broadcastValue
+    def __getIp(self,choice):
+        choiceDict = {
+            "network":self.networkValueSum,
+            "broadcast":self.broadcastValue
+        }
+        value = choiceDict[choice]
+        valueIp = ""
+        c = 0
+        def addDot(c):
+            if c < 4:
+                return "."
+            else:
+                return ""
+        for k in self.subnetMask:
+            if(self.subnetMask[k] == 0):
+                valueIp += "0"
+                c +=1
+                valueIp += addDot(c)
+            elif(self.subnetMask[k] == 255):
+                valueIp += self.ipAddressOctetDict[k]
+                c += 1
+                valueIp += addDot(c)
+            else:
+                valueIp += str(value)
+                c += 1
+                valueIp += addDot(c)
+        return valueIp
+            
