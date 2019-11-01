@@ -5,7 +5,6 @@ from isThisSubnet import isThisSubnet
 import unittest
 import logging
 import sys
-"""
 class testHexConvert(unittest.TestCase):
     sample = '0x62D2ED4B'
     sampleBin = '1100010110100101110110101001011'
@@ -55,18 +54,14 @@ class testSubnetRange(unittest.TestCase):
         self.assertEqual(test_init.broadcastIp,test_init3.broadcastIp)
         test_init4 = subnetRange(self.sampleForCompare)
         self.assertNotEqual(test_init.networkIp,test_init4.networkIp)
-        self.assertNotEqual(test_init.broadcastIp,test_init4.broadcastIp)"""
+        self.assertNotEqual(test_init.broadcastIp,test_init4.broadcastIp)
 class test_isThisSubnet(unittest.TestCase):
     sampleInput = '0x62D2ED4B'
     sampleCidrSubnet = '98.210.237.192/26'
-    sampleInSubnet = '0x62D2EDC1'
     result = False
-    resultInSubnet = True
-    def testInit(self):
-        #compute = isThisSubnet(self.sampleInput,self.sampleCidrSubnet)
-        #self.assertEqual(compute.verify(),self.result)
-        compute2 = isThisSubnet(self.sampleInSubnet,self.sampleCidrSubnet)
-        self.assertEqual(compute2.verify(),self.resultInSubnet)
+    def testVerify(self):
+        compute = isThisSubnet(self.sampleInput,self.sampleCidrSubnet)
+        self.assertEqual(compute.verify(),self.result)
 if __name__ == '__main__':
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
     unittest.main()
