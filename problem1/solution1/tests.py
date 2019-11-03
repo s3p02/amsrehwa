@@ -5,13 +5,16 @@ from isThisSubnet import isThisSubnet
 import unittest
 import logging
 import sys
+
 class testHexConvert(unittest.TestCase):
     sample = '0x62D2ED4B'
     sampleIp = '98.210.237.75'
+    sampleLong = 1657990475
     def testInit(self):
         test_init = hexConvert(self.sample)
         self.assertEqual(test_init.hexNumber,self.sample)
         self.assertEqual(test_init.ipAddr,self.sampleIp)
+        self.assertEqual(test_init.longIpAddr,self.sampleLong)
 class testSubnetRange(unittest.TestCase):
     sample = '98.210.237.192/26'
     sample2sameSubnet = '98.210.237.193/26'
@@ -42,10 +45,14 @@ class testSubnetRange(unittest.TestCase):
         test_init4 = subnetRange(self.sampleForCompare)
         self.assertNotEqual(test_init.networkIp,test_init4.networkIp)
         self.assertNotEqual(test_init.broadcastIp,test_init4.broadcastIp)
+    def testRange(self):
+        test_one = subnetRange(self.sample)
+        t1range = test_one.getRange()
+        self.assertNotEqual(t1range,{})
 class test_isThisSubnet(unittest.TestCase):
     sampleInput = '0x62D2ED4B'
     sampleCidrSubnet = '98.210.237.192/26'
-    result = True
+    result = False
     def testVerify(self):
         compute = isThisSubnet(self.sampleInput,self.sampleCidrSubnet)
         self.assertEqual(compute.verifyNetworkAndBroadcast(),self.result)

@@ -52,8 +52,6 @@ class subnetRange:
             logging.debug("CLASS subnetRange:__init__,longNetworkIp="+str(self.longNetworkIp))
             self.longBroadcastIp = self.__getLongValueOfBinaryValue(self.binaryBroadcastIp)
             logging.debug("CLASS subnetRange:__init__,longBroadcastIp="+str(self.longBroadcastIp))
-            self.__getRange()
-            logging.debug("CLASS subnetRange:__init__,ipRange="+str(self.ipRange))
         except IndexError:
             logging.error("CLASS subnetRange:subnetString="+str(subnetString)+",\'/\'SPLIT FAILED")
     def __getBitRotatedBinaryString(self):
@@ -170,7 +168,7 @@ class subnetRange:
     def __getLongValueOfBinaryValue(self,binaryValue):
         logging.debug("CLASS subnetRange:__getLongValueOfBinaryValue,binaryValue="+str(binaryValue))
         return int(binaryValue,2)
-    def __getRange(self):
+    def getRange(self):
         rangeStart = self.longNetworkIp+1
         logging.debug("CLASS subnetRange:__getRange,rangeStart="+str(rangeStart))
         rangeStop = self.longBroadcastIp
@@ -182,6 +180,7 @@ class subnetRange:
             self.ipRange[i] = j+rangeStart
             j += 1
         logging.debug("CLASS subnetRange:__getRange,ipRange="+str(self.ipRange))
+        return self.ipRange
     def searchValueInRange(self,searchValue):
         logging.debug("CLASS subnetRange:searchValueInRange,searchValue="+str(searchValue))
         for key, value in self.ipRange.items():

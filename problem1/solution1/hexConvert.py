@@ -12,6 +12,8 @@ class hexConvert:
         logging.debug("CLASS hexConvert:__init__,hexNumber="+str(hexNumber))
         self.ipAddr = self.__hex2decimal2Ip()
         logging.debug("CLASS hexConvert:__init__,ipAddr="+str(self.ipAddr))
+        self.longIpAddr = int(self.hexNumber,16)
+        logging.debug("CLASS hexConvert:__init__,longIpAddr="+str(self.longIpAddr))
     
     def __hex2decimal2Ip(self):
         """ private method that converts hexadecimal value to decimal ip\n
