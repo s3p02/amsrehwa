@@ -55,7 +55,7 @@ class test_isThisSubnet(unittest.TestCase):
     result = False
     def testVerify(self):
         compute = isThisSubnet(self.sampleInput,self.sampleCidrSubnet)
-        self.assertEqual(compute.verifyNetworkAndBroadcast(),self.result)
+        self.assertEqual(compute.verify(),self.result)
 if __name__ == '__main__':
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
     unittest.main()

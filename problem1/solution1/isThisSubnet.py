@@ -5,7 +5,7 @@ from subnetRange import subnetRange as sr
 class isThisSubnet:
     def __init__(self,inputIp,cidrSubnet):
         self.__ipc = hc(inputIp)
-        self.inputIp = self.__ipc.ipAddr
+        self.inputIp = self.__ipc.get()
         logging.debug("CLASS isThisSubnet:__init__,inputIp="+str(self.inputIp))
         self.inputIpLong = self.__ipc.longIpAddr
         logging.debug("CLASS isThisSubnet:__init__,inputIpLong="+str(self.inputIpLong))
@@ -16,7 +16,7 @@ class isThisSubnet:
         self.inputIpCidrSubnet = self.inputIp+"/"+str(self.blockNumber)
         logging.debug("CLASS isThisSubnet:__init__,inputIpCidrSubnet="+str(self.inputIpCidrSubnet))
         self.inputIpCidrSubnetInfo = sr(self.inputIpCidrSubnet)
-    def verifyNetworkAndBroadcast(self):
+    def verify(self):
         condition1 = (self.inputIpCidrSubnetInfo.networkIp == self.cidrSubnetInfo.networkIp)
         logging.debug("CLASS isThisSubnet:verify,condition1(NetworkIp)="+str(condition1))
         condition2 = (self.inputIpCidrSubnetInfo.broadcastIp == self.cidrSubnetInfo.broadcastIp)
