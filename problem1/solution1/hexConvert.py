@@ -2,10 +2,9 @@
 import logging
 class hexConvert:
     """\n
-    This class is initialized with a hexadecimal input, hexNumber. Has the following methods:
-    1. get()
-    2. getList()
-    3.getIp()
+    hexConvert class is initialized with a hexadecimal input, hexNumber eg: 0x62D2ED4B\n
+    hexConvert class has the following methods:
+    1. get() --> returns ip-address of hexNumber
     \n"""
     __octetDecimalDict = {}
     def __init__(self, hexNumber):
@@ -30,6 +29,7 @@ class hexConvert:
                     ipAddr += "."
         except IndexError:
             logging.error("CLASS hexConvert:__hex2decimalIp,Input not in format 0x________,hexNumber="+str(self.hexNumber))
+            pass
         logging.debug("CLASS hexConvert:hex2decimalDict,_octetDecimalDict="+str(self.__octetDecimalDict))
         logging.debug("CLASS hexConvert:hex2decimalDict,ipAddr="+str(ipAddr))
         return ipAddr

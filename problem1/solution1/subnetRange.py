@@ -14,6 +14,7 @@ class subnetRange:
     subnetMask = {}
     primaryOctet = None
     networkValueSum = 0
+    ipRange = {}
     def __init__(self,subnetString):
         try:
             subnetStringSplit = subnetString.split("/")
@@ -37,6 +38,22 @@ class subnetRange:
             logging.debug("CLASS subnetRange:__init__,networkIp="+str(self.networkIp))
             self.broadcastIp = self.__getIp("broadcast")
             logging.debug("CLASS subnetRange:__init__,broadcastIp="+str(self.broadcastIp))
+            self.maxHosts = self.__GetMaxHosts()
+            logging.debug("CLASS subnetRange:__init__,maxHosts="+str(self.maxHosts))
+            self.networkDict = self.__getIpAddressOctetDict(self.networkIp)
+            logging.debug("CLASS subnetRange:__init__,networkDict="+str(self.networkDict))
+            self.broadcastDict = self.__getIpAddressOctetDict(self.broadcastIp)
+            logging.debug("CLASS subnetRange:__init__,broadcastDict="+str(self.broadcastDict))
+            self.binaryNetworkIp = self.__getBinaryValueOfIp(self.networkDict)
+            logging.debug("CLASS subnetRange:__init__,binaryNetworkIp="+str(self.binaryNetworkIp))
+            self.binaryBroadcastIp = self.__getBinaryValueOfIp(self.broadcastDict)
+            logging.debug("CLASS subnetRange:__init__,binaryBroadcastIp="+str(self.binaryBroadcastIp))
+            self.longNetworkIp = self.__getLongValueOfBinaryValue(self.binaryNetworkIp)
+            logging.debug("CLASS subnetRange:__init__,longNetworkIp="+str(self.longNetworkIp))
+            self.longBroadcastIp = self.__getLongValueOfBinaryValue(self.binaryBroadcastIp)
+            logging.debug("CLASS subnetRange:__init__,longBroadcastIp="+str(self.longBroadcastIp))
+            self.__getRange()
+            logging.debug("CLASS subnetRange:__init__,ipRange="+str(self.ipRange))
         except IndexError:
             logging.error("CLASS subnetRange:subnetString="+str(subnetString)+",\'/\'SPLIT FAILED")
     def __getBitRotatedBinaryString(self):
@@ -57,9 +74,11 @@ class subnetRange:
         logging.debug("CLASS subnetRange:__getBitRotatedBinaryOctetDict,bitRotatedBinaryOctetDict="+str(bitRotatedBinaryOctetDict))
         logging.debug("CLASS subnetRange:__getBitRotatedBinaryOctetDict,subnetMask="+str(self.subnetMask))
         return bitRotatedBinaryOctetDict
-    def __getIpAddressOctetDict(self):
+    def __getIpAddressOctetDict(self,ipAddr=None):
+        if ipAddr == None:
+            ipAddr = self.ipAddress
         ipAddressOctetDict ={}
-        ipAddressSplit = self.ipAddress.split(".")
+        ipAddressSplit = ipAddr.split(".")
         for i in range(len(ipAddressSplit)):
             ipAddressOctetDict[i*8] = ipAddressSplit[i]
         logging.debug("CLASS subnetRange:__getIpAddressOctetDict,ipAddressOctetDict="+str(ipAddressOctetDict))
@@ -104,9 +123,9 @@ class subnetRange:
             if self.binaryNetworkValue[i] == "1":
                 bv[i] = self.bitLookUp[i]
         logging.debug("CLASS subnetRange:__getBroadcastValue,bv="+str(bv))
-        maxVal = min(bv, key=bv.get)
-        logging.debug("CLASS subnetRange:__getBroadcastValue,maxVal="+str(maxVal))
-        broadcastValue = self.networkValueSum + bv[maxVal] - 1
+        minVal = min(bv, key=bv.get)
+        logging.debug("CLASS subnetRange:__getBroadcastValue,minVal="+str(minVal))
+        broadcastValue = self.networkValueSum + bv[minVal] - 1
         logging.debug("CLASS subnetRange:__getBroadcastValue,broadcastValue="+str(self.networkValueSum))
         return broadcastValue
     def __getIp(self,choice):
@@ -136,4 +155,39 @@ class subnetRange:
                 c += 1
                 valueIp += addDot(c)
         return valueIp
-            
+    def __GetMaxHosts(self):
+        maxHosts = 2**(32-int(self.block))-2
+        logging.debug("CLASS subnetRange:__maxHosts,maxHosts="+str(maxHosts))
+        return maxHosts
+    def __getBinaryValueOfIp(self,ipAddrOctetDict):
+        binVal = ""
+        try:
+            for k in ipAddrOctetDict:
+                binVal += bin(int(ipAddrOctetDict[k])).split(("0b"))[1]
+            return binVal
+        except IndexError:
+            logging.error("CLASS subnetRange:__getBinaryValueOfIp,Input Error,ipAddrOctetDict="+str(ipAddrOctetDict))
+    def __getLongValueOfBinaryValue(self,binaryValue):
+        logging.debug("CLASS subnetRange:__getLongValueOfBinaryValue,binaryValue="+str(binaryValue))
+        return int(binaryValue,2)
+    def __getRange(self):
+        rangeStart = self.longNetworkIp+1
+        logging.debug("CLASS subnetRange:__getRange,rangeStart="+str(rangeStart))
+        rangeStop = self.longBroadcastIp
+        logging.debug("CLASS subnetRange:__getRange,rangeStop="+str(rangeStop))
+        diff = rangeStop - rangeStart
+        logging.debug("CLASS subnetRange:__getRange,diff="+str(diff))
+        j = 0
+        for i in range(diff):
+            self.ipRange[i] = j+rangeStart
+            j += 1
+        logging.debug("CLASS subnetRange:__getRange,ipRange="+str(self.ipRange))
+    def searchValueInRange(self,searchValue):
+        logging.debug("CLASS subnetRange:searchValueInRange,searchValue="+str(searchValue))
+        for key, value in self.ipRange.items():
+            if searchValue == value:
+                logging.debug("CLASS subnetRange:searchValueInRange,searchValue="+str(searchValue)+" found @key="+str(key))
+                return True
+            else:
+                logging.debug("CLASS subnetRange:searchValueInRange,searchValue="+str(searchValue)+" not-found")
+                return False
