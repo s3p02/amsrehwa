@@ -21,7 +21,7 @@ class isThisSubnet:
         logging.debug("CLASS isThisSubnet:verify,condition1(NetworkIp)="+str(condition1))
         condition2 = (self.inputIpCidrSubnetInfo.broadcastIp == self.cidrSubnetInfo.broadcastIp)
         logging.debug("CLASS isThisSubnet:verify,condition2(BroadcastIp)="+str(condition2))
-        condition3 = self.cidrSubnetInfo.searchValueInRange(self.inputIpLong)
+        condition3 = (self.inputIpLong >= self.cidrSubnetInfo.longNetworkIp and self.inputIpLong <= self.cidrSubnetInfo.longBroadcastIp)
         logging.debug("CLASS isThisSubnet:verify,condition3(ip in subnet search)="+str(condition3))
         if (condition1 and condition2 and condition3):
             logging.debug("CLASS isThisSubnet:verify,condition1 and condition2 and condition3="+str(True))
