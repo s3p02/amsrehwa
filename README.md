@@ -22,6 +22,4 @@ Tested locally using similar script, test.sh with samples provided in var.zip
 
 ```cd amsrehwa/```
 
-```git checkout s3p02/problem3```
-
 ```pip install -r requirements.txt ```
