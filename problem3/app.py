@@ -6,6 +6,7 @@ import sys
 app = Flask(__name__)
 
 class lruCache:
+    __cacheSize = 3#000
     hitCount = 0
     missCount = 0
     def __init__(self):
