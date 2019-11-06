@@ -66,13 +66,13 @@ a = lruCache()
 @app.route('/')
 def info():
     _info = '''
-    <h1>Sample for Application Endpoint is :- http://127.0.0.1:38080/example-route?lat=90&lng=180</h1>
+    <h1>Sample for Application Endpoint is :- http://34.68.125.53:38080/example-route?lat=90&lng=180</h1>
     <h1>-90 >= lat <=90 & -180 >= lng <=180 </h1>
-    <h1>Check Cache:- http://127.0.0.1:38080/showCache</h1>
-    <h1>Check Hit Count:- http://127.0.0.1:38080/getHit</h1>
-    <h1>Check Miss Count:- http://127.0.0.1:38080/getMiss</h1>
-    <h1>Clear Hit Count:- http://127.0.0.1:38080/clearHit</h1>
-    <h1>Clear Miss Count:- http://127.0.0.1:38080/clearMiss</h1>
+    <h1>Check Cache:- http://34.68.125.53:38080/showCache</h1>
+    <h1>Check Hit Count:- http://34.68.125.53:38080/getHit</h1>
+    <h1>Check Miss Count:- http://34.68.125.53:38080/getMiss</h1>
+    <h1>Clear Hit Count:- http://34.68.125.53:38080/clearHit</h1>
+    <h1>Clear Miss Count:- http://34.68.125.53:38080/clearMiss</h1>
     '''
     return _info
 
@@ -138,4 +138,4 @@ def example_route():
         abort(400)
 if __name__ == '__main__':
     #logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-    app.run(port=38080,debug=True)
+    app.run(host='0.0.0.0',port=38080,debug=True)
