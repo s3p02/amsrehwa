@@ -3,14 +3,35 @@ from flask import request
 from flask import abort
 import logging
 import sys
+import collections
 app = Flask(__name__)
 
 class lruCache:
-    __cacheSize = 3#000
+    __cacheSize = 3
+    #000
     hitCount = 0
     missCount = 0
+    lruc = None
     def __init__(self):
         print("LRU CACHE")
+        self.lruc = collections.deque(maxlen=self.__cacheSize)
+        print("CLASS lruCache:__init__,lruc: {}".format(self.lruc))
+    
+    def checkCache(self,page):
+        if page in self.lruc:
+            indexOfPage = self.lruc.index(page)
+            if indexOfPage == 0:
+                self.inc("hit")
+                return True
+            else:
+                del self.lruc[indexOfPage]
+                self.lruc.appendleft(page)
+                self.inc("hit")
+                return True
+        else:
+            self.lruc.appendleft(page)
+            self.inc("miss")
+            return False
 
     def inc(self,option):
         if option == "hit":
@@ -47,6 +68,11 @@ def info():
     '''
     return _info
 
+@app.route('/showCache')
+def showCache():
+    curr = a.lruc
+    showCacheMessage = '''<h1>Cur Cache: {}</h1>'''.format(curr)
+    return showCacheMessage
 
 @app.route('/clearHit')
 def clearHit():
@@ -65,7 +91,7 @@ def getHit():
 def clearMiss():
     a.clearMiss()
     curr = a.missCount
-    clearMissMessage = '''<h1>Cur clearMiss: {}</h1>'''.format(curr)
+    clearMissMessage = '''<h1>Cur missCount: {}</h1>'''.format(curr)
     return clearMissMessage
 
 @app.route('/getMiss')
@@ -76,6 +102,8 @@ def getMiss():
 
 @app.route('/example-route')
 def example_route():
+    def latLngHash(lat,lng):
+        return lat*lng
     def checkCoordinates(lat,lng):
         condition1 = (lat >= -90 and lat <= 90)
         condition2 = (lng >= -180 and lng <= 180)
@@ -85,12 +113,14 @@ def example_route():
         lat = float(request.args['lat'])
         lng = float(request.args['lng'])
         if checkCoordinates(lat,lng):
+            hashCompute = latLngHash(lat,lng)
+            a.checkCache(hashCompute)
             compute = '''<h1>The Latitude value is: {}</h1>
               <h1>The Longitude value is: {}</h1>'''.format(lat,lng)
-            a.inc("hit")
+            #a.inc("hit")
             return compute
         else:
-            a.inc("miss")
+            #a.inc("miss")
             abort(400)
     except ValueError:
         abort(400)
