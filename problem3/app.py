@@ -8,8 +8,7 @@ app = Flask(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 class lruCache:
-    __cacheSize = 3
-    #000
+    __cacheSize = 3000
     hitCount = 0
     missCount = 0
     lruc = None
