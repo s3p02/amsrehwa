@@ -24,18 +24,18 @@ class lruCache:
             indexOfPage = self.lruc.index(page)
             if indexOfPage == 0:
                 self.inc("hit")
-                return True
+                return page
             else:
                 del self.lruc[indexOfPage]
                 self.lruc.appendleft(page)
                 self.inc("hit")
-                return True
+                return page
         else:
             #url = "http://127.0.0.1:38080/example-URL"
             self.lruc.appendleft(page)
             #self.pagesDict[page] = url
             self.inc("miss")
-            return False
+            return page
 
     def inc(self,option):
         if option == "hit":
@@ -126,9 +126,9 @@ def example_route():
         lng = float(request.args['lng'])
         if checkCoordinates(lat,lng):
             hashCompute = GetImageURL(lat,lng)
-            a.checkCache(hashCompute)
-            compute = '''<h1>The Latitude value is: {}</h1>
-              <h1>The Longitude value is: {}</h1>'''.format(lat,lng)
+            pageUrl = a.checkCache(hashCompute)
+            compute = '''<h1>The Latitude value is: {} & The Longitude value is: {}</h1></h1>
+              <h1>The URL string is: {}</h1>'''.format(lat,lng,pageUrl)
             #a.inc("hit")
             return compute
         else:
