@@ -11,3 +11,17 @@ Tests for each class provided in tests.py
 #2 - Change of Phone Number
 Solution provided in changeOfPhoneNumber.sh script, single command using SED - stream editor
 Tested locally using similar script, test.sh with samples provided in var.zip
+
+#3 - Implement an LRU Cache
+
+```sudo yum -y install git```
+
+```source ~/py36env/bin/activate```
+
+```git clone https://github.com/s3p02/amsrehwa.git```
+
+```cd amsrehwa/```
+
+```git checkout s3p02/problem3```
+
+```pip install -r requirements.txt ```
