@@ -3,6 +3,15 @@ import logging
 from hexConvert import hexConvert as hc
 from subnetRange import subnetRange as sr
 class isThisSubnet:
+    """
+    isThisSubnet CLASS:\n
+    This class initiated with two constructors:\n\t1. inputIp - 0x62D2ED4B.\n\t
+    2.cidrSubnet - 98.210.237.192/26\n\t
+    __ipc - Initiates the hexConvert CLASS\n\t
+    inputIp - obtains the dotted decimal format of inputIp from __ipc\n\t
+    inputIpLong - obtains the long/decimal value of the inputIp from __ipc\n\t
+    
+    """
     def __init__(self,inputIp,cidrSubnet):
         self.__ipc = hc(inputIp)
         self.inputIp = self.__ipc.get()
