@@ -12,7 +12,9 @@ Tests for each class provided in tests.py
 Solution provided in changeOfPhoneNumber.sh script, single command using SED - stream editor
 Tested locally using similar script, test.sh with samples provided in var.zip
 
-#3 - Implement an LRU Cache
+#3 - Implement an LRU Cache - 
+
+Run on an f1-micro (1 vCPU, 0.6 GB memory) - GCP
 
 ```sudo yum -y install git```
 
@@ -41,3 +43,5 @@ change instanceIp='' to instanceIp='YOUR_IP_ADDRESS'
 
 
 ```nohup python app.py > /var/log/problem3/output.log &```
+
+```curl "http://YOUR_IP_ADDRESS:38080/example-route?lat=90&lng=180"``` from the terminal
