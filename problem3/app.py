@@ -4,6 +4,7 @@ from flask import abort
 import logging
 import sys
 import collections
+instanceIp=''
 app = Flask(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
@@ -65,14 +66,14 @@ a = lruCache()
 @app.route('/')
 def info():
     _info = '''
-    <h1>Sample for Application Endpoint is :- http://34.68.125.53:38080/example-route?lat=90&lng=180</h1>
+    <h1>Sample for Application Endpoint is :- http://{0}:38080/example-route?lat=90&lng=180</h1>
     <h1>-90 >= lat <=90 & -180 >= lng <=180 </h1>
-    <h1>Check Cache:- http://34.68.125.53:38080/showCache</h1>
-    <h1>Check Hit Count:- http://34.68.125.53:38080/getHit</h1>
-    <h1>Check Miss Count:- http://34.68.125.53:38080/getMiss</h1>
-    <h1>Clear Hit Count:- http://34.68.125.53:38080/clearHit</h1>
-    <h1>Clear Miss Count:- http://34.68.125.53:38080/clearMiss</h1>
-    '''
+    <h1>Check Cache:- http://{0}:38080/showCache</h1>
+    <h1>Check Hit Count:- http://{0}:38080/getHit</h1>
+    <h1>Check Miss Count:- http://{0}:38080/getMiss</h1>
+    <h1>Clear Hit Count:- http://{0}:38080/clearHit</h1>
+    <h1>Clear Miss Count:- http://{0}:38080/clearMiss</h1>
+    '''.format(instanceIp)
     return _info
 
 @app.route('/showCache')
