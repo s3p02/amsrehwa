@@ -25,17 +25,12 @@ class testSubnetRange(unittest.TestCase):
     binaryString = "11111111111111111111111111000000"
     bitRotatedBinaryOctetDict = {0: '11111111', 8: '11111111', 16: '11111111', 24: '11000000'}
     ipAddressOctetDict={0: '98', 8: '210', 16: '237', 24: '192'}
-    #subnetMaskList = ["255","255","255","192"]
     networkIp = "98.210.237.192"
     broadcastIp = "98.210.237.255"
     def testInit(self):
         test_init = subnetRange(self.sample)
-        self.assertEqual(test_init.ipAddress,self.ip)
-        self.assertNotEqual(test_init.ipAddress,'98.210.237.197')
         self.assertEqual(test_init.block,self.block)
         self.assertNotEqual(test_init.block,29)
-        self.assertEqual(test_init.bitRotatedBinaryString,self.binaryString)
-        self.assertEqual(test_init.bitRotatedBinaryOctetDict,self.bitRotatedBinaryOctetDict)
         test_init2 = subnetRange(self.sample2sameSubnet)
         self.assertEqual(test_init.networkIp,test_init2.networkIp)
         self.assertEqual(test_init.broadcastIp,test_init2.broadcastIp)
@@ -45,10 +40,6 @@ class testSubnetRange(unittest.TestCase):
         test_init4 = subnetRange(self.sampleForCompare)
         self.assertNotEqual(test_init.networkIp,test_init4.networkIp)
         self.assertNotEqual(test_init.broadcastIp,test_init4.broadcastIp)
-    def testRange(self):
-        test_one = subnetRange(self.sample)
-        t1range = test_one.getRange()
-        self.assertNotEqual(t1range,{})
 class test_isThisSubnet(unittest.TestCase):
     sampleInput = '0x62D2ED4B'
     sampleCidrSubnet = '98.210.237.192/26'

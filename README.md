@@ -15,6 +15,7 @@ Tested locally using similar script, test.sh with samples provided in var.zip
 #3 - Implement an LRU Cache - 
 
 Run on an f1-micro (1 vCPU, 0.6 GB memory) - GCP
+Ensure port 38080 is opened
 
 ```sudo yum -y install git```
 

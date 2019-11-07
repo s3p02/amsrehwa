@@ -8,6 +8,10 @@ import sys
 import os
 
 def main():
+    """
+    MAIN METHOD:\n
+    REQUIRES 2 inputs from the CLI,\n\t1. input file with cidr/subnet and ip pairs
+    \n\t2. output file to write results to."""
     logging.info("In This Subnet?\n")
     #Read & Write from csv on the fly
     try:
