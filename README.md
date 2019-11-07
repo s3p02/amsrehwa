@@ -16,10 +16,28 @@ Tested locally using similar script, test.sh with samples provided in var.zip
 
 ```sudo yum -y install git```
 
-```source ~/py36env/bin/activate```
-
 ```git clone https://github.com/s3p02/amsrehwa.git```
 
-```cd amsrehwa/```
+```cd amsrehwa/problem3```
+
+```bash prep.sh```
+
+```source py36env/bin/activate```
 
 ```pip install -r requirements.txt ```
+
+```vim app.py```
+change instanceIp='' to instanceIp='YOUR_IP_ADDRESS'
+
+```sudo mkdir -p /var/log/problem3```
+
+```chmod -R 0777 /var/log/problem3``` chmod -->  as SU
+
+
+```touch /var/log/problem3/output.log```
+
+
+```chmod 644 /var/log/problem3/output.log```
+
+
+```nohup python app.py > /var/log/problem3/output.log &```
