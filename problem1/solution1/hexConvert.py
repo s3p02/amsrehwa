@@ -2,10 +2,13 @@
 import logging
 class hexConvert:
     """\n
-    hexConvert class is initialized with a hexadecimal input, hexNumber eg: 0x62D2ED4B\n
-    hexConvert class has the following methods:
-    1. get() --> returns ip-address of hexNumber
-    \n"""
+    hexConvert class is initialized with a hexadecimal input, hexNumber eg: 0x62D2ED4B\n\t
+    hexNumber - input\n\t
+    ipAddr - Calls the __hex2decimal2Ip method to obtain the ip in dotted decimal format\n\t
+    longIpAddr - is the long/decimal value of the hexNumber\n\t
+    hexConvert class has the following methods:\n\t
+    1. get() --> returns ip-address of hexNumber\n\t
+    """
     __octetDecimalDict = {}
     def __init__(self, hexNumber):
         self.hexNumber = hexNumber
