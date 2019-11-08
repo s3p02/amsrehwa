@@ -12,7 +12,7 @@ Tests for each class provided in tests.py
 Solution provided in changeOfPhoneNumber.sh script, single command using SED - stream editor
 Tested locally using similar script, test.sh with samples provided in var.zip
 
-#3 - Implement an LRU Cache - 
+#3 - Implement an LRU Cache - http://35.229.101.54:38080
 
 Run on an f1-micro (1 vCPU, 0.6 GB memory) - GCP
 Ensure port 38080 is opened
